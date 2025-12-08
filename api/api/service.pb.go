@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.36.10
 // 	protoc        v3.12.4
-// source: protos/service.proto
+// source: api/service.proto
 
-package __api
+package api
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -33,7 +33,7 @@ type HeartbeatRequest struct {
 
 func (x *HeartbeatRequest) Reset() {
 	*x = HeartbeatRequest{}
-	mi := &file_protos_service_proto_msgTypes[0]
+	mi := &file_api_service_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -45,7 +45,7 @@ func (x *HeartbeatRequest) String() string {
 func (*HeartbeatRequest) ProtoMessage() {}
 
 func (x *HeartbeatRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_service_proto_msgTypes[0]
+	mi := &file_api_service_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -58,7 +58,7 @@ func (x *HeartbeatRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HeartbeatRequest.ProtoReflect.Descriptor instead.
 func (*HeartbeatRequest) Descriptor() ([]byte, []int) {
-	return file_protos_service_proto_rawDescGZIP(), []int{0}
+	return file_api_service_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *HeartbeatRequest) GetServiceName() string {
@@ -92,7 +92,7 @@ type RegisterServiceRequest struct {
 
 func (x *RegisterServiceRequest) Reset() {
 	*x = RegisterServiceRequest{}
-	mi := &file_protos_service_proto_msgTypes[1]
+	mi := &file_api_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -104,7 +104,7 @@ func (x *RegisterServiceRequest) String() string {
 func (*RegisterServiceRequest) ProtoMessage() {}
 
 func (x *RegisterServiceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_service_proto_msgTypes[1]
+	mi := &file_api_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -117,7 +117,7 @@ func (x *RegisterServiceRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterServiceRequest.ProtoReflect.Descriptor instead.
 func (*RegisterServiceRequest) Descriptor() ([]byte, []int) {
-	return file_protos_service_proto_rawDescGZIP(), []int{1}
+	return file_api_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *RegisterServiceRequest) GetServiceName() string {
@@ -187,7 +187,7 @@ type DeregisterServiceRequest struct {
 
 func (x *DeregisterServiceRequest) Reset() {
 	*x = DeregisterServiceRequest{}
-	mi := &file_protos_service_proto_msgTypes[2]
+	mi := &file_api_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -199,7 +199,7 @@ func (x *DeregisterServiceRequest) String() string {
 func (*DeregisterServiceRequest) ProtoMessage() {}
 
 func (x *DeregisterServiceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_service_proto_msgTypes[2]
+	mi := &file_api_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -212,7 +212,7 @@ func (x *DeregisterServiceRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeregisterServiceRequest.ProtoReflect.Descriptor instead.
 func (*DeregisterServiceRequest) Descriptor() ([]byte, []int) {
-	return file_protos_service_proto_rawDescGZIP(), []int{2}
+	return file_api_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *DeregisterServiceRequest) GetServiceName() string {
@@ -240,7 +240,7 @@ type WatchRequest struct {
 
 func (x *WatchRequest) Reset() {
 	*x = WatchRequest{}
-	mi := &file_protos_service_proto_msgTypes[3]
+	mi := &file_api_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -252,7 +252,7 @@ func (x *WatchRequest) String() string {
 func (*WatchRequest) ProtoMessage() {}
 
 func (x *WatchRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_service_proto_msgTypes[3]
+	mi := &file_api_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -265,7 +265,7 @@ func (x *WatchRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WatchRequest.ProtoReflect.Descriptor instead.
 func (*WatchRequest) Descriptor() ([]byte, []int) {
-	return file_protos_service_proto_rawDescGZIP(), []int{3}
+	return file_api_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *WatchRequest) GetServiceName() string {
@@ -295,7 +295,7 @@ type DiscoverRequest struct {
 
 func (x *DiscoverRequest) Reset() {
 	*x = DiscoverRequest{}
-	mi := &file_protos_service_proto_msgTypes[4]
+	mi := &file_api_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -307,7 +307,7 @@ func (x *DiscoverRequest) String() string {
 func (*DiscoverRequest) ProtoMessage() {}
 
 func (x *DiscoverRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_service_proto_msgTypes[4]
+	mi := &file_api_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -320,7 +320,7 @@ func (x *DiscoverRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DiscoverRequest.ProtoReflect.Descriptor instead.
 func (*DiscoverRequest) Descriptor() ([]byte, []int) {
-	return file_protos_service_proto_rawDescGZIP(), []int{4}
+	return file_api_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *DiscoverRequest) GetServiceName() string {
@@ -361,7 +361,7 @@ type CommonResponse struct {
 
 func (x *CommonResponse) Reset() {
 	*x = CommonResponse{}
-	mi := &file_protos_service_proto_msgTypes[5]
+	mi := &file_api_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -373,7 +373,7 @@ func (x *CommonResponse) String() string {
 func (*CommonResponse) ProtoMessage() {}
 
 func (x *CommonResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_service_proto_msgTypes[5]
+	mi := &file_api_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -386,7 +386,7 @@ func (x *CommonResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CommonResponse.ProtoReflect.Descriptor instead.
 func (*CommonResponse) Descriptor() ([]byte, []int) {
-	return file_protos_service_proto_rawDescGZIP(), []int{5}
+	return file_api_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CommonResponse) GetCode() int64 {
@@ -413,7 +413,7 @@ type ServicesDiscoverResponse struct {
 
 func (x *ServicesDiscoverResponse) Reset() {
 	*x = ServicesDiscoverResponse{}
-	mi := &file_protos_service_proto_msgTypes[6]
+	mi := &file_api_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -425,7 +425,7 @@ func (x *ServicesDiscoverResponse) String() string {
 func (*ServicesDiscoverResponse) ProtoMessage() {}
 
 func (x *ServicesDiscoverResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_service_proto_msgTypes[6]
+	mi := &file_api_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -438,7 +438,7 @@ func (x *ServicesDiscoverResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ServicesDiscoverResponse.ProtoReflect.Descriptor instead.
 func (*ServicesDiscoverResponse) Descriptor() ([]byte, []int) {
-	return file_protos_service_proto_rawDescGZIP(), []int{6}
+	return file_api_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ServicesDiscoverResponse) GetCode() int64 {
@@ -465,7 +465,7 @@ type ServiceInstances struct {
 
 func (x *ServiceInstances) Reset() {
 	*x = ServiceInstances{}
-	mi := &file_protos_service_proto_msgTypes[7]
+	mi := &file_api_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -477,7 +477,7 @@ func (x *ServiceInstances) String() string {
 func (*ServiceInstances) ProtoMessage() {}
 
 func (x *ServiceInstances) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_service_proto_msgTypes[7]
+	mi := &file_api_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -490,7 +490,7 @@ func (x *ServiceInstances) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ServiceInstances.ProtoReflect.Descriptor instead.
 func (*ServiceInstances) Descriptor() ([]byte, []int) {
-	return file_protos_service_proto_rawDescGZIP(), []int{7}
+	return file_api_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ServiceInstances) GetServiceName() string {
@@ -507,11 +507,11 @@ func (x *ServiceInstances) GetInstances() []*RegisterServiceRequest {
 	return nil
 }
 
-var File_protos_service_proto protoreflect.FileDescriptor
+var File_api_service_proto protoreflect.FileDescriptor
 
-const file_protos_service_proto_rawDesc = "" +
+const file_api_service_proto_rawDesc = "" +
 	"\n" +
-	"\x14protos/service.proto\x12\x03api\"T\n" +
+	"\x11api/service.proto\x12\x03api\"T\n" +
 	"\x10HeartbeatRequest\x12 \n" +
 	"\vserviceName\x18\x01 \x01(\tR\vserviceName\x12\x1e\n" +
 	"\n" +
@@ -558,22 +558,22 @@ const file_protos_service_proto_rawDesc = "" +
 	"\x0fRegisterService\x12\x1b.api.RegisterServiceRequest\x1a\x13.api.CommonResponse\x12;\n" +
 	"\x05Watch\x12\x11.api.WatchRequest\x1a\x1d.api.ServicesDiscoverResponse0\x01\x127\n" +
 	"\tHeartbeat\x12\x15.api.HeartbeatRequest\x1a\x13.api.CommonResponse\x12?\n" +
-	"\bDiscover\x12\x14.api.DiscoverRequest\x1a\x1d.api.ServicesDiscoverResponseB\x06Z\x04.apib\x06proto3"
+	"\bDiscover\x12\x14.api.DiscoverRequest\x1a\x1d.api.ServicesDiscoverResponseB\x06Z\x04/apib\x06proto3"
 
 var (
-	file_protos_service_proto_rawDescOnce sync.Once
-	file_protos_service_proto_rawDescData []byte
+	file_api_service_proto_rawDescOnce sync.Once
+	file_api_service_proto_rawDescData []byte
 )
 
-func file_protos_service_proto_rawDescGZIP() []byte {
-	file_protos_service_proto_rawDescOnce.Do(func() {
-		file_protos_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_protos_service_proto_rawDesc), len(file_protos_service_proto_rawDesc)))
+func file_api_service_proto_rawDescGZIP() []byte {
+	file_api_service_proto_rawDescOnce.Do(func() {
+		file_api_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_service_proto_rawDesc), len(file_api_service_proto_rawDesc)))
 	})
-	return file_protos_service_proto_rawDescData
+	return file_api_service_proto_rawDescData
 }
 
-var file_protos_service_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
-var file_protos_service_proto_goTypes = []any{
+var file_api_service_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_api_service_proto_goTypes = []any{
 	(*HeartbeatRequest)(nil),         // 0: api.HeartbeatRequest
 	(*RegisterServiceRequest)(nil),   // 1: api.RegisterServiceRequest
 	(*DeregisterServiceRequest)(nil), // 2: api.DeregisterServiceRequest
@@ -584,7 +584,7 @@ var file_protos_service_proto_goTypes = []any{
 	(*ServiceInstances)(nil),         // 7: api.ServiceInstances
 	nil,                              // 8: api.RegisterServiceRequest.MetadataEntry
 }
-var file_protos_service_proto_depIdxs = []int32{
+var file_api_service_proto_depIdxs = []int32{
 	8, // 0: api.RegisterServiceRequest.metadata:type_name -> api.RegisterServiceRequest.MetadataEntry
 	7, // 1: api.ServicesDiscoverResponse.services:type_name -> api.ServiceInstances
 	1, // 2: api.ServiceInstances.instances:type_name -> api.RegisterServiceRequest
@@ -605,26 +605,26 @@ var file_protos_service_proto_depIdxs = []int32{
 	0, // [0:3] is the sub-list for field type_name
 }
 
-func init() { file_protos_service_proto_init() }
-func file_protos_service_proto_init() {
-	if File_protos_service_proto != nil {
+func init() { file_api_service_proto_init() }
+func file_api_service_proto_init() {
+	if File_api_service_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_protos_service_proto_rawDesc), len(file_protos_service_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_service_proto_rawDesc), len(file_api_service_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_protos_service_proto_goTypes,
-		DependencyIndexes: file_protos_service_proto_depIdxs,
-		MessageInfos:      file_protos_service_proto_msgTypes,
+		GoTypes:           file_api_service_proto_goTypes,
+		DependencyIndexes: file_api_service_proto_depIdxs,
+		MessageInfos:      file_api_service_proto_msgTypes,
 	}.Build()
-	File_protos_service_proto = out.File
-	file_protos_service_proto_goTypes = nil
-	file_protos_service_proto_depIdxs = nil
+	File_api_service_proto = out.File
+	file_api_service_proto_goTypes = nil
+	file_api_service_proto_depIdxs = nil
 }
