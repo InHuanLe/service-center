@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"service-center/api/api"
 	"sync"
+	"time"
 )
 
 type Store interface {
@@ -18,7 +19,7 @@ type Store interface {
 type InMemoryStore struct {
 	services      sync.Map // map[string][]instanceId
 	instances     sync.Map // map[instanceId]*api.RegisterServiceRequest
-	instancesStat sync.Map // map[instanceId]bool
+	instancesStat sync.Map // map[instanceId]time.Time
 }
 
 func NewInMemoryStore() *InMemoryStore {
@@ -49,18 +50,28 @@ func (s *InMemoryStore) Available(instanceId string) bool {
 	if !ok {
 		return false
 	}
-	available := value.(bool)
-	return available
+	cfg, ok := s.instances.Load(instanceId)
+	if !ok {
+		return false
+	}
+	req := cfg.(*api.RegisterServiceRequest)
+	heartbeatInterval := time.Duration(req.Ttl) * time.Second
+	if heartbeatInterval == 0 {
+		heartbeatInterval = 30 * time.Second
+	}
+	if time.Since(value.(time.Time)) > heartbeatInterval*3 {
+		return false
+	}
+	return s.registered(instanceId) && s.instanceInService(instanceId, req.ServiceName)
 }
 
 func (s *InMemoryStore) Store(instanceId string, req *api.RegisterServiceRequest) error {
-	instanceInService := s.instanceInService(instanceId, req.ServiceName)
-	registered := s.registered(instanceId)
 	instanceState := s.Available(instanceId)
-	if instanceInService && registered && instanceState {
-		// already stored
-		return nil
+	if s.Available(instanceId) {
+		return fmt.Errorf("already stored")
 	}
+	registered := s.registered(instanceId)
+	instanceInService := s.instanceInService(instanceId, req.ServiceName)
 	if !instanceInService {
 		value, _ := s.services.LoadOrStore(req.ServiceName, make(map[string]struct{}))
 		instanceMap := value.(map[string]struct{})
@@ -71,7 +82,7 @@ func (s *InMemoryStore) Store(instanceId string, req *api.RegisterServiceRequest
 		s.instances.Store(instanceId, req)
 	}
 	if !instanceState {
-		s.instancesStat.Store(instanceId, true)
+		s.instancesStat.Store(instanceId, time.Now())
 	}
 	return nil
 }
@@ -107,9 +118,12 @@ func (s *InMemoryStore) LoadInstance(instanceId string) (*api.RegisterServiceReq
 }
 
 func (s *InMemoryStore) Update(instanceId string, req *api.RegisterServiceRequest) error {
-	registered := s.registered(instanceId)
-	if !registered {
-		return fmt.Errorf("instance not registered")
+	if !s.Available(instanceId) {
+		return fmt.Errorf("instance not available")
+	}
+	if req == nil {
+		s.instancesStat.Store(instanceId, time.Now())
+		return nil
 	}
 	s.instances.Store(instanceId, req)
 	return nil
