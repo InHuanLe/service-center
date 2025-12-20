@@ -1,0 +1,1 @@
+protoc --proto_path=api --go_out=paths=source_relative:pkg/api --go-grpc_out=paths=source_relative:pkg/api api/service.proto

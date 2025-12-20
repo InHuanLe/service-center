@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "service-center/pkg/api/pb;pb";
+
+// 服务注册结构，用于服务端和客户端交互
+message RegisterRequest {
+    ServiceInstance instance = 1;
+}
+
+// 服务注册响应，确认注册结果
+message RegisterResponse {
+    bool success = 1;
+}
+
+// 服务注销结构，用于服务端和客户端交互
+message DeregisterRequest {
+    string service_name = 1;
+    string instance_id = 2;
+}
+
+// 服务注销响应，确认注销结果
+message DeregisterResponse {
+    bool success = 1;
+}
+
+// 监听请求，用于订阅服务变化
+message WatchRequest {
+    string service_name = 1;
+    int32 watch_event = 2;
+}
+
+// 监听响应，包含服务变化信息
+message WatchResponse {
+    EventType event_type = 1;
+    ServiceInstance instance = 2;
+}
+
+// 服务发现请求，用于查找可用服务实例
+message DiscoverRequest {
+    string service_name = 1;
+}
+
+// 单个服务的信息
+message Service {
+    string service_name = 1;
+    repeated ServiceInstance instances = 2;
+}
+
+// 单个服务实例的信息
+message ServiceInstance {
+    string service_name = 1;
+    string instance_id = 2;
+    string address = 3;
+    int32 port = 4;
+}
+
+// 心跳请求，用于保持连接活跃
+message HeartbeatRequest {
+    string service_name = 1;
+    string instance_id = 2;
+}
+
+// 心跳响应，确认连接活跃
+message HeartbeatResponse {
+    bool success = 1;
+}
+
+enum EventType {
+  EVENT_ADD = 0;
+  EVENT_DELETE = 1;
+}
+
+// 服务注册与发现的RPC接口定义
+service ServiceRegistry {
+    // 服务注册方法
+    rpc Register(RegisterRequest) returns (RegisterResponse);
+    // 服务注销方法
+    rpc Deregister(DeregisterRequest) returns (DeregisterResponse);
+    // 监听服务变化方法，返回流式响应
+    rpc Watch(WatchRequest) returns (stream WatchResponse);
+    // 服务发现方法
+    rpc Discover(DiscoverRequest) returns (Service);
+    // 心跳方法
+    rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse);
+}
+
+
+// 考虑不足的地方：
+// 1. 推送不是实时的，需要事件汇总
+// 2. 没有提供更新接口
+// 4. 设计协议的时候就要考虑实现的复杂度 和 可行性
+
+// 只考虑到了服务发现的时候怎么组合最终的返回比较方便，没有考虑心跳也会涉及到服务实例的查找
+
+// 事件怎么设计
+// 请求的幂等性考虑
