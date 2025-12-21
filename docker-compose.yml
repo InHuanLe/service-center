@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  # Service Registry Server
+  registry-server:
+    build:
+      context: .
+      target: server
+    image: service-center:server-latest
+    container_name: service-center-server
+    ports:
+      - "50051:50051"
+    networks:
+      - service-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "/server", "--help"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Example service that registers with the registry
+  example-service-1:
+    build:
+      context: .
+      target: client
+    image: service-center:client-latest
+    container_name: example-service-1
+    depends_on:
+      - registry-server
+    networks:
+      - service-net
+    command: ["register", "example-service", "example-service-1:8080", "--server", "registry-server:50051"]
+
+  example-service-2:
+    build:
+      context: .
+      target: client
+    image: service-center:client-latest
+    container_name: example-service-2
+    depends_on:
+      - registry-server
+    networks:
+      - service-net
+    command: ["register", "example-service", "example-service-2:8080", "--server", "registry-server:50051"]
+
+networks:
+  service-net:
+    driver: bridge

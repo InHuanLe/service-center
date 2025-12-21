@@ -5,18 +5,40 @@ import (
 	"io"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 
 	"service-center/pkg/api/pb"
 )
 
 // Client wraps the generated gRPC client to provide a small convenience API.
 type Client struct {
-	c pb.ServiceRegistryClient
+	conn *grpc.ClientConn
+	c    pb.ServiceRegistryClient
+}
+
+// NewClient creates a new registry client connected to the given server address.
+func NewClient(serverAddr string) (*Client, error) {
+	conn, err := grpc.NewClient(serverAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		return nil, err
+	}
+	return &Client{
+		conn: conn,
+		c:    pb.NewServiceRegistryClient(conn),
+	}, nil
 }
 
 // NewClientFromConn creates a registry client from an existing grpc connection.
 func NewClientFromConn(cc grpc.ClientConnInterface) *Client {
 	return &Client{c: pb.NewServiceRegistryClient(cc)}
+}
+
+// Close closes the underlying connection if it was created by NewClient.
+func (c *Client) Close() error {
+	if c.conn != nil {
+		return c.conn.Close()
+	}
+	return nil
 }
 
 func (c *Client) Register(ctx context.Context, inst *pb.ServiceInstance) (bool, error) {
