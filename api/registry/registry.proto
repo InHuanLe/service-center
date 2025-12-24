@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package registry;
+
+option go_package = "pkg/registry;registry";
+
+message RegisterRequest {
+    string name = 1;
+    string instance_id = 2;
+    string address = 3;
+    map<string, string> metadata = 4;
+    int32 port = 5;
+    int32 ttl = 6;
+}
+
+message RegisterResponse {
+    bool success = 1;
+    int64 lease_id = 2;
+}
+
+message DeregisterRequest {
+    string name = 1;
+    string instance_id = 2;
+}
+
+message DeregisterResponse {
+    bool success = 1;
+}
+
+message WatchRequest {
+    string service_name = 1;
+}
+
+message ServiceInstance {
+    string instance_id = 1;
+    string address = 2;
+    map<string, string> metadata = 3;
+    int32 port = 4;
+    int32 ttl = 5;
+}
+
+message HeartbeatRequest {
+    int64 lease_id = 1;
+}
+
+message HeartbeatResponse {
+    bool success = 1;
+}
+
+// 服务注册中心
+service Registry {
+    // 客户端注册服务实例
+    rpc Register(RegisterRequest) returns (RegisterResponse);
+    // 客户端注销服务实例
+    rpc Deregister(DeregisterRequest) returns (DeregisterResponse);
+    // 客户端监听服务实例变化
+    rpc Watch(WatchRequest) returns (stream ServiceInstance);
+    // 客户端发送心跳以续约租约
+    rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse);
+}
