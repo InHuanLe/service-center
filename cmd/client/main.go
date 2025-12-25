@@ -2,11 +2,10 @@ package main
 
 import (
 	"service-center/cmd/app/cli"
-
-	"github.com/spf13/cobra"
+	"service-center/cmd/app/client"
 )
 
 func main() {
-	var command *cobra.Command
+	command := client.NewCommand()
 	cli.Run(command)
 }

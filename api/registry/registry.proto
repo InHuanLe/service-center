@@ -10,7 +10,7 @@ message RegisterRequest {
     string address = 3;
     map<string, string> metadata = 4;
     int32 port = 5;
-    int32 ttl = 6;
+    int64 ttl = 6;
 }
 
 message RegisterResponse {
@@ -36,7 +36,7 @@ message ServiceInstance {
     string address = 2;
     map<string, string> metadata = 3;
     int32 port = 4;
-    int32 ttl = 5;
+    int64 ttl = 5;
 }
 
 message HeartbeatRequest {

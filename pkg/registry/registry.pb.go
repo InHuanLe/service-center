@@ -7,12 +7,11 @@
 package registry
 
 import (
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
-
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 const (
@@ -474,7 +473,7 @@ const file_api_registry_registry_proto_rawDesc = "" +
 	"\aaddress\x18\x03 \x01(\tR\aaddress\x12C\n" +
 	"\bmetadata\x18\x04 \x03(\v2'.registry.RegisterRequest.MetadataEntryR\bmetadata\x12\x12\n" +
 	"\x04port\x18\x05 \x01(\x05R\x04port\x12\x10\n" +
-	"\x03ttl\x18\x06 \x01(\x05R\x03ttl\x1a;\n" +
+	"\x03ttl\x18\x06 \x01(\x03R\x03ttl\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"G\n" +
@@ -495,7 +494,7 @@ const file_api_registry_registry_proto_rawDesc = "" +
 	"\aaddress\x18\x02 \x01(\tR\aaddress\x12C\n" +
 	"\bmetadata\x18\x03 \x03(\v2'.registry.ServiceInstance.MetadataEntryR\bmetadata\x12\x12\n" +
 	"\x04port\x18\x04 \x01(\x05R\x04port\x12\x10\n" +
-	"\x03ttl\x18\x05 \x01(\x05R\x03ttl\x1a;\n" +
+	"\x03ttl\x18\x05 \x01(\x03R\x03ttl\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"-\n" +

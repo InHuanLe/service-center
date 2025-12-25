@@ -3,6 +3,7 @@ package client
 import "github.com/spf13/cobra"
 
 func NewCommand() *cobra.Command {
+	opt := NewOptions()
 	command := &cobra.Command{
 		Use:   "service-center",
 		Short: "A brief description of your application",
@@ -15,8 +16,13 @@ to quickly create a Cobra application.`,
 		// Uncomment the following line if your bare application
 		// has an action associated with it:
 		RunE: func(cmd *cobra.Command, args []string) error {
-			return nil
+			c, err := NewClient(&opt)
+			if err != nil {
+				return err
+			}
+			return ClientCommandTest(c, &opt)
 		},
 	}
+	opt.AddFlags(command)
 	return command
 }
