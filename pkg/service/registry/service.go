@@ -3,6 +3,7 @@ package registry
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	pb "service-center/pkg/registry"
 
 	clientv3 "go.etcd.io/etcd/client/v3"
@@ -50,6 +51,7 @@ func (s *RegistryService) Register(ctx context.Context, req *pb.RegisterRequest)
 	if _, err = s.etcdClient.Put(ctx, svc.InstanceId, string(buffer), clientv3.WithLease(leaseID)); err != nil {
 		return nil, err
 	}
+	fmt.Printf("new server registered: %+v\n", svc)
 	return &pb.RegisterResponse{
 		Success: true,
 		LeaseId: int64(leaseID),
@@ -61,6 +63,7 @@ func (s *RegistryService) Deregister(ctx context.Context, req *pb.DeregisterRequ
 	if err != nil {
 		return nil, err
 	}
+	fmt.Printf("server deregister: %+v\n", req)
 	return &pb.DeregisterResponse{
 		Success: true,
 	}, nil
@@ -72,6 +75,7 @@ func (s *RegistryService) Heartbeat(ctx context.Context, req *pb.HeartbeatReques
 	if _, err := s.etcdClient.KeepAliveOnce(ctx, leaseID); err != nil {
 		return nil, err
 	}
+	fmt.Printf("receive heartbeat: %+v\n", req)
 	return &pb.HeartbeatResponse{
 		Success: true,
 	}, nil
