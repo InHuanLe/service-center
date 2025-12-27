@@ -34,7 +34,7 @@ func (o *Options) IP() net.IP {
 }
 
 func (o *Options) AddFlags(command *cobra.Command) {
-	command.Flags().StringArrayVar(&o.endPoints, "end_point", []string{}, "etcd endpoints")
+	command.Flags().StringArrayVar(&o.endPoints, "end_point", []string{"127.0.0.1:2379"}, "etcd endpoints")
 	command.Flags().StringVar(&o.ip, "ip", "127.0.0.1", "grpc server ip")
 	command.Flags().StringVar(&o.zone, "zone", "", "grpc server IPv6 scoped addressing zone")
 	command.Flags().IntVar(&o.port, "port", 50051, "grpc server port")

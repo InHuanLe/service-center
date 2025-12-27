@@ -1,20 +1,27 @@
 package server
 
 import (
+	"context"
 	"net"
 	pb "service-center/pkg/registry"
 	"service-center/pkg/service/registry"
+	"service-center/pkg/storage/etcd"
 
 	"github.com/spf13/cobra"
+	clientv3 "go.etcd.io/etcd/client/v3"
 	"google.golang.org/grpc"
 )
 
 func Run(o *Options) error {
-	grpcServer := grpc.NewServer()
-	registryService, err := registry.NewRegistryService(o)
+	etcdClient, err := clientv3.New(clientv3.Config{
+		Endpoints: o.Endpoints(),
+	})
+	backend := etcd.NewEtcdBackEnd(context.Background(), etcdClient)
+	registryService, err := registry.NewRegistryService(backend)
 	if err != nil {
 		return err
 	}
+	grpcServer := grpc.NewServer()
 	pb.RegisterRegistryServer(grpcServer, registryService)
 	listener, err := net.ListenTCP("tcp", &net.TCPAddr{
 		IP:   o.IP(),

@@ -5,24 +5,17 @@ import (
 	"encoding/json"
 	"fmt"
 	pb "service-center/pkg/registry"
-
-	clientv3 "go.etcd.io/etcd/client/v3"
+	"service-center/pkg/storage"
 )
 
 type RegistryService struct {
 	pb.UnimplementedRegistryServer
-	etcdClient *clientv3.Client
+	storageCli storage.RegistryStorage
 }
 
-func NewRegistryService(opts Options) (*RegistryService, error) {
-	etcdClient, err := clientv3.New(clientv3.Config{
-		Endpoints: opts.Endpoints(),
-	})
-	if err != nil {
-		return nil, err
-	}
+func NewRegistryService(storageCli storage.RegistryStorage) (*RegistryService, error) {
 	return &RegistryService{
-		etcdClient: etcdClient,
+		storageCli: storageCli,
 	}, nil
 }
 
@@ -35,32 +28,22 @@ func (s *RegistryService) Register(ctx context.Context, req *pb.RegisterRequest)
 		Port:       req.GetPort(),
 		Ttl:        ttl,
 	}
-	// 创建租约
-	var leaseID clientv3.LeaseID
-	if resp, err := s.etcdClient.Grant(ctx, ttl); err != nil || resp.Error != "" {
-		return nil, err
-	} else {
-		leaseID = resp.ID
-	}
-	// 序列化服务实例信息
-	buffer, err := json.Marshal(svc)
+	leaseID, err := s.storageCli.Grant(ttl)
 	if err != nil {
 		return nil, err
 	}
-	// 存储服务实例信息到 etcd，附加租约
-	if _, err = s.etcdClient.Put(ctx, svc.InstanceId, string(buffer), clientv3.WithLease(leaseID)); err != nil {
+	if err = s.storageCli.Put(svc.InstanceId, svc, storage.WithLeaseID(leaseID)); err != nil {
 		return nil, err
 	}
 	fmt.Printf("new server registered: %+v\n", svc)
 	return &pb.RegisterResponse{
 		Success: true,
-		LeaseId: int64(leaseID),
+		LeaseId: leaseID,
 	}, nil
 }
 
 func (s *RegistryService) Deregister(ctx context.Context, req *pb.DeregisterRequest) (*pb.DeregisterResponse, error) {
-	_, err := s.etcdClient.Delete(ctx, req.GetInstanceId())
-	if err != nil {
+	if err := s.storageCli.Delete(req.GetInstanceId()); err != nil {
 		return nil, err
 	}
 	fmt.Printf("server deregister: %+v\n", req)
@@ -70,9 +53,7 @@ func (s *RegistryService) Deregister(ctx context.Context, req *pb.DeregisterRequ
 }
 
 func (s *RegistryService) Heartbeat(ctx context.Context, req *pb.HeartbeatRequest) (*pb.HeartbeatResponse, error) {
-	leaseID := clientv3.LeaseID(req.GetLeaseId())
-	// 延长租约
-	if _, err := s.etcdClient.KeepAliveOnce(ctx, leaseID); err != nil {
+	if err := s.storageCli.KeepAliveOnce(req.LeaseId); err != nil {
 		return nil, err
 	}
 	fmt.Printf("receive heartbeat: %+v\n", req)
@@ -82,17 +63,16 @@ func (s *RegistryService) Heartbeat(ctx context.Context, req *pb.HeartbeatReques
 }
 
 func (s *RegistryService) Watch(req *pb.WatchRequest, stream pb.Registry_WatchServer) error {
-	watchCh := s.etcdClient.Watch(s.etcdClient.Ctx(), req.GetServiceName(), clientv3.WithPrefix())
-	for watchResp := range watchCh {
-		for _, event := range watchResp.Events {
-			svc := &pb.ServiceInstance{}
-			if err := json.Unmarshal(event.Kv.Value, svc); err != nil {
-				return err
-			}
-			if err := stream.Send(svc); err != nil {
-				return err
-			}
+	return s.storageCli.Watch(req.GetServiceName(), func(a any) {
+		buffer, ok := a.([]byte)
+		if !ok {
+			return
 		}
-	}
-	return nil
+		svc := &pb.ServiceInstance{}
+		err := json.Unmarshal(buffer, svc)
+		if err != nil {
+			return
+		}
+		stream.Send(svc)
+	}, storage.WithPrefix())
 }
