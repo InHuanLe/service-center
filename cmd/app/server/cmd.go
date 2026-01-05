@@ -3,10 +3,11 @@ package server
 import (
 	"context"
 	"net"
-	pb "service-center/pkg/registry"
-	"service-center/pkg/service/registry"
-	"service-center/pkg/storage"
-	"service-center/pkg/storage/etcd"
+
+	pb "github.com/stainton/service-center/pkg/registry"
+	"github.com/stainton/service-center/pkg/service/registry"
+	"github.com/stainton/service-center/pkg/storage"
+	"github.com/stainton/service-center/pkg/storage/etcd"
 
 	"github.com/spf13/cobra"
 	"github.com/stainton/logger"
